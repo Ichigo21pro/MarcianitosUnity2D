@@ -1,17 +1,18 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class InicialMenu : MonoBehaviour
 {
     ///////////////////////////////////////////////// VARIABLES ///////////////////////////////////////////////////
     
     [Header("Paneles")]
-    public GameObject panelControles; // Panel donde están los controles
-    public GameObject panelMenuPrincipal; // Panel principal del menú
-    public GameObject panelOpciones; // Panel donde están las opciones
+    public GameObject panelControles; // Panel donde estÃ¡n los controles
+    public GameObject panelMenuPrincipal; // Panel principal del menÃº
+    public GameObject panelOpciones; // Panel donde estÃ¡n las opciones
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////// START ////////////////////////////////////////////////////
@@ -40,16 +41,20 @@ public class InicialMenu : MonoBehaviour
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////// F_SALIR //////////////////////////////////////////////////////
-    
+
     public void QuitGame()
     {
-        UnityEditor.EditorApplication.isPlaying = false; // Detiene el juego si estás en el editor
-        Application.Quit(); // Cierra la aplicación en una build
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        UnityEngine.Application.Quit(); // ðŸ‘ˆ aquÃ­ aclaramos que es la de Unity
+#endif
     }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////// F_CONTROLES /////////////////////////////////////////////////////
-    
+
     public void ShowControls()
     {
         if (panelMenuPrincipal != null) panelMenuPrincipal.SetActive(false);

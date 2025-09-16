@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_SpaceFight/Scenes/MainMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/_SpaceFight/Scenes/Inicio/SeleccionNave.unity
     guid: a5f16b4a82df37043aac5bbc4f95eeb2
   m_configObjects: {}
