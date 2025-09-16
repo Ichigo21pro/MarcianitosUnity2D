@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ConfigMenu : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public class ConfigMenu : MonoBehaviour
     public Image panelBrillo;
     [Header("Toggle Pantalla Completa")]
     public Toggle togglePC;
+    [Header("Drop Calidad")]
+    public TMP_Dropdown dropdownCalidad;
+    public int calidad;
+    [Header("Drop Resolucion")]
+    public TMP_Dropdown dropdownResolucion;
+    Resolution[] resoluciones;
+
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,17 +51,27 @@ public class ConfigMenu : MonoBehaviour
                 sliderBrightness.value
             );
         }
-        // === BRILLO ===
+        // === PANTALLA COMPLETA ===
         if (togglePC != null)
         {
             togglePC.isOn = Screen.fullScreen;
         }
+
+        // === CALIDAD ===
+
+        if (dropdownCalidad != null && calidad != null)
+        {
+            calidad = PlayerPrefs.GetInt("numeroDeCalidad", 3);
+            dropdownCalidad.value = calidad;
+            AjustarCalidad();
+        }
+
     }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        /////////////////////////////////////////////// F_SliderSound /////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////// F_SliderSound /////////////////////////////////////////////////////
 
-        public void ChangeSliderSound(float valor)
+    public void ChangeSliderSound(float valor)
     {
         sliderValueSound = valor;
         PlayerPrefs.SetFloat("volumenAudio", sliderValueSound);
@@ -104,5 +122,15 @@ public class ConfigMenu : MonoBehaviour
         {
             Screen.fullScreen = pantallaCompleta;
         }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////// F_Calidad ////////////////////////////////////////////////////
+
+    public void AjustarCalidad() 
+    {
+        QualitySettings.SetQualityLevel(dropdownCalidad.value);
+        PlayerPrefs.SetInt("numeroDeCalidad", dropdownCalidad.value);
+        calidad = dropdownCalidad.value;
     }
 }
