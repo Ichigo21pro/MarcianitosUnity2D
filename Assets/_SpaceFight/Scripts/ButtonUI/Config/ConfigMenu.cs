@@ -59,13 +59,20 @@ public class ConfigMenu : MonoBehaviour
 
         // === CALIDAD ===
 
-        if (dropdownCalidad != null && calidad != null)
+        if (dropdownCalidad != null )
         {
             calidad = PlayerPrefs.GetInt("numeroDeCalidad", 3);
             dropdownCalidad.value = calidad;
             AjustarCalidad();
         }
 
+        // === RESOLUCION ===
+
+        if(dropdownResolucion != null)
+        {
+            resoluciones = Screen.resolutions;  // <-- inicializar aquí
+            RevisarResolucion();
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,5 +139,40 @@ public class ConfigMenu : MonoBehaviour
         QualitySettings.SetQualityLevel(dropdownCalidad.value);
         PlayerPrefs.SetInt("numeroDeCalidad", dropdownCalidad.value);
         calidad = dropdownCalidad.value;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////// F_Resolucion ////////////////////////////////////////////////////
+
+    public void RevisarResolucion()
+    {
+        resoluciones = Screen.resolutions;
+        dropdownResolucion.ClearOptions();
+        List<string> opciones = new List<string>();
+        int resolucionActual = 0;
+
+        for (int i = 0; i < resoluciones.Length; i++)
+        {
+            string opcion = resoluciones[i].width + "x" + resoluciones[i].height;
+            opciones.Add(opcion);
+
+            if (Screen.fullScreen && resoluciones[i].width == Screen.currentResolution.width && resoluciones[i].height == Screen.currentResolution.height)
+            {
+                resolucionActual = i;
+            }
+        }
+
+        dropdownResolucion.AddOptions(opciones);
+        int resolucionGuardada = PlayerPrefs.GetInt("numeroResolucion", resolucionActual);
+        dropdownResolucion.value = resolucionGuardada;
+        dropdownResolucion.RefreshShownValue();
+
+    }
+
+    public void CambiarResolucion(int indiceResolucion)
+    {
+        Resolution resolucion = resoluciones[indiceResolucion];
+        Screen.SetResolution(resolucion.width, resolucion.height, Screen.fullScreen);
+        PlayerPrefs.SetInt("numeroResolucion", indiceResolucion);
     }
 }
